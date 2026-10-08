@@ -39,3 +39,9 @@ def test_redirect_to_existing_code():
 def test_redirect_unknown_code():
     response = client.get("/doesnotexist123")
     assert response.status_code == 404
+
+def test_short_url_uses_request_host():
+    response = client.post("/shorten", json={"url": "https://www.python.org"})
+    data = response.json()
+    assert "127.0.0.1" not in data["short_url"]
+    assert data["short_url"].endswith(data["short_code"])
