@@ -80,6 +80,11 @@ the same destination.
   are treated as distinct URLs.
 - Frontend error messages trim Pydantic's validation text by splitting on
   the first comma — a pragmatic fix, not a fully robust one.
+- No rate limiting. `/shorten` and the redirect endpoint both accept
+  unlimited requests from any client — there's nothing stopping repeated
+  automated requests from filling the database with junk entries or
+  inflating click_count. A production version would add per-IP rate
+  limiting (e.g. via `slowapi` or a reverse-proxy layer).
 
 ## Lessons learned
 
